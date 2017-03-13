@@ -9,18 +9,18 @@
 //get all data from page
 $productName = $_GET['product'];
 $session = $_GET['session'];
-$table = $_GET['table'];
+$specifications = $_GET['specifications'];
 
 //get Specifications from table
-$specifications = '';
-preg_match_all('#<tr>\s+?<td>(.*?)</td>\s+?<td>(.*?)</td>\s+?</tr>#', $table, $matches);
-for($i=0;$i<count($matches[1]);$i++){
-    $specifications .= " ".$matches[1][$i].": ".$matches[2][$i]."\n";
+$displaySpec = '';
+$specifications = explode("||",$specifications);
+for($i=0; $i<count($specifications); $i++){
+    $i%2 == 0 ? $displaySpec .= " ".$specifications[$i].": " : $displaySpec .= $specifications[$i]."\n";
 }
 
 //check whether have session
 if(@$session != ''){
-    echo "Order Processed:\n".strtoupper($productName)."\n".strtoupper($specifications);
+    echo "Order Processed:\n".strtoupper($productName)."\n".strtoupper($displaySpec);
     echo date("d/m/Y H:i");
 }else{
     echo "no session!";
